@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видалення останнього символу</title>
+</head>
+<body>
+
+<h2>Видалення останнього символу з рядка</h2>
+
+<p id="text">Це приклад речення для видалення символів.</p>
+
+<button onclick="removeLastChar()">Видалити останній символ</button>
+
+<script>
+    function removeLastChar() {
+        let p = document.getElementById("text"); 
+        p.innerHTML = p.innerHTML.slice(0, -1); // видаляє останній символ
+    }
+</script>
+
+</body>
+</html>

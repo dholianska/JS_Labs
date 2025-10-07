@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практична робота 5.2</title>
+</head>
+<body>
+
+<h2>Виділення та видалення тексту</h2>
+<p id="elem">Виділіть частину цього тексту та натисніть кнопку, щоб її видалити.</p>
+<button onclick="str_del()">ВИДАЛИТИ ВИДІЛЕНЕ</button>
+
+<script>
+// =======================
+// Функція видалення виділеного тексту
+function str_del() {
+    let selection = window.getSelection().toString(); // виділений текст
+    let elem = document.getElementById("elem");
+    let str = elem.innerHTML; // використовуємо innerHTML, щоб не втратити HTML
+    let start = str.indexOf(selection);
+    if(start !== -1) {
+        let end = start + selection.length;
+        elem.innerHTML = str.slice(0, start) + str.slice(end);
+    }
+}
+
+// =======================
+// 5.2.1 getProperty
+function getProperty(obj, prop) {
+    return obj[prop];
+}
+var obj1 = { key: 'value' };
+console.log(getProperty(obj1, 'key')); // --> 'value'
+
+// =======================
+// 5.2.2 addProperty
+function addProperty(obj, prop) {
+    obj[prop] = true;
+    return true;
+}
+var myObj = {};
+addProperty(myObj, "myProperty");
+console.log(myObj.myProperty); // --> true
+
+// =======================
+// 5.2.3 removeProperty
+function removeProperty(obj, prop) {
+    delete obj[prop];
+}
+var obj2 = { name: 'Sam', age: 20 };
+removeProperty(obj2, 'name');
+console.log(obj2.name); // --> undefined
+
+// =======================
+// 5.2.4 getFullName
+function getFullName(firstName, lastName) {
+    return firstName + " " + lastName;
+}
+console.log(getFullName('Joe', 'Smith')); // --> 'Joe Smith'
+
+// =======================
+// 5.2.5 getLengthOfWord
+function getLengthOfWord(word) {
+    return word.length;
+}
+console.log(getLengthOfWord('some')); // --> 4
+
+// =======================
+// 5.2.6 getLengthOfTwoWords
+function getLengthOfTwoWords(word1, word2) {
+    return word1.length + word2.length;
+}
+console.log(getLengthOfTwoWords('some', 'words')); // --> 9
+
+// =======================
+// 5.2.7 isGreaterThan
+function isGreaterThan(num1, num2) {
+    return num1 > num2;
+}
+console.log(isGreaterThan(11, 10)); // --> true
+
+// =======================
+// 5.2.8 isEven
+function isEven(num) {
+    return num % 2 === 0;
+}
+console.log(isEven(11)); // --> false
+console.log(isEven(12)); // --> true
+
+// =======================
+// 5.2.9 isSameLength
+function isSameLength(word1, word2) {
+    return word1.length === word2.length;
+}
+console.log(isSameLength('words', 'super')); // --> true
+
+// =======================
+// 5.2.10 isEvenAndGreaterThanTen
+function isEvenAndGreaterThanTen(num) {
+    return num % 2 === 0 && num > 10;
+}
+console.log(isEvenAndGreaterThanTen(13)); // --> false
+console.log(isEvenAndGreaterThanTen(14)); // --> true
+
+// =======================
+// 5.2.11 computeAreaOfATriangle
+function computeAreaOfATriangle(base, height) {
+    return (base * height) / 2;
+}
+console.log(computeAreaOfATriangle(4, 6)); // --> 12
+
+</script>
+
+</body>
+</html>
