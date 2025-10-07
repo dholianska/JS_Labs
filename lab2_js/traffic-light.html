@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Практична 2 — Світлофор</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 30px;
+        }
+        .traffic-light {
+            width: 100px;
+            height: 260px;
+            background: #333;
+            border-radius: 20px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .light {
+            width: 70px;
+            height: 70px;
+            margin: 10px auto;
+            border-radius: 50%;
+            background: gray;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Світлофор </h1>
+<div class="traffic-light">
+    <div id="red" class="light"></div>
+    <div id="yellow" class="light"></div>
+    <div id="green" class="light"></div>
+</div>
+<button onclick="changeLight()">Змінити сигнал</button>
+
+<script>
+    let current = 0;
+
+    function changeLight() {
+        const colors = ["red", "yellow", "green"];
+        const lights = colors.map(c => document.getElementById(c));
+
+        lights.forEach(light => light.style.background = "gray");
+
+        lights[current].style.background = colors[current];
+
+        current = (current + 1) % colors.length;
+    }
+</script>
+
+</body>
+</html>

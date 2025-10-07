@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Практична 2 — Спливаючі вікна</title>
+</head>
+<body>
+<h1>Демонстрація спливаючих вікон JavaScript</h1>
+
+<script>
+    alert("УВАГА! Це приклад спливаючого вікна alert.");
+
+    var ready = confirm("Ви готові розпочати роботу?");
+    if (ready) {
+        alert("Чудово! Рухаємось далі");
+    } else {
+        alert("Можна трохи відпочити");
+    }
+
+    var name = prompt("Введіть ваше ім'я:", "Петро");
+    if (name != null && name.trim() !== "") {
+        document.write("<h2>Вітаю, " + name + "!</h2>");
+    } else {
+        document.write("<h2>Ви не ввели ім’я </h2>");
+    }
+</script>
+
+</body>
+</html>
