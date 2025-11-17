@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Облік надходження товарів</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 50%;
+            margin: 0 auto 30px;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        #totalRow td {
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+        .input-form {
+            text-align: left;
+            display: inline-block;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        .input-form div {
+            margin-bottom: 10px;
+        }
+        .input-form label {
+            display: inline-block;
+            width: 80px;
+        }
+        input[type="number"] {
+            width: 150px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <H2>Облік надходження товарів</H2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Найменування товара</th>
+                <th>ціна за одиницю</th>
+                <th>кількість</th>
+                <th>вартість</th>
+            </tr>
+        </thead>
+        <tbody id="goodsBody">
+            <tr data-name="Стіл кухонний" data-price="12000" data-quantity="5">
+                <td>Стіл кухонний</td>
+                <td class="price">12000</td>
+                <td class="quantity">5</td>
+                <td class="cost">60000</td>
+            </tr>
+            <tr data-name="Стіл письмовий" data-price="8000" data-quantity="10">
+                <td>Стіл письмовий</td>
+                <td class="price">8000</td>
+                <td class="quantity">10</td>
+                <td class="cost">80000</td>
+            </tr>
+            <tr data-name="Стілець" data-price="20" data-quantity="1200">
+                <td>Стілець</td>
+                <td class="price">20</td>
+                <td class="quantity">1200</td>
+                <td class="cost">24000</td>
+            </tr>
+            <tr data-name="Книжкова шафа" data-price="14200" data-quantity="4">
+                <td>Книжкова шафа</td>
+                <td class="price">14200</td>
+                <td class="quantity">4</td>
+                <td class="cost">56800</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr id="totalRow">
+                <td colspan="3">УСЬОГО</td>
+                <td id="totalCost">0</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <H3>Зміна ціни та кількості</H3>
+
+    <div class="input-form">
+        <FORM name="UpdateForm" onsubmit="event.preventDefault(); updateGoods();">
+            <div>
+                <label for="selectGood">Товар .........</label>
+                <SELECT NAME="selectGood" ID="selectGood">
+                    </SELECT>
+            </div>
+            
+            <div>
+                <label for="newPrice">Ціна ........</label>
+                <INPUT TYPE="number" NAME="newPrice" ID="newPrice" required min="1">
+            </div>
+
+            <div>
+                <label for="newQuantity">Кількість</label>
+                <INPUT TYPE="number" NAME="newQuantity" ID="newQuantity" required min="1">
+            </div>
+            
+            <button type="submit">Ввід</button>
+        </FORM>
+    </div>
+
+<SCRIPT>
+    function populateSelect() {
+        const select = document.getElementById('selectGood');
+        const rows = document.getElementById('goodsBody').getElementsByTagName('tr');
+        
+        select.innerHTML = ''; 
+
+        for (let i = 0; i < rows.length; i++) {
+            const goodName = rows[i].getAttribute('data-name');
+            const option = document.createElement('option');
+            option.value = goodName;
+            option.textContent = goodName;
+            select.appendChild(option);
+        }
+    }
+
+    function calculateTotal() {
+        const rows = document.getElementById('goodsBody').getElementsByTagName('tr');
+        let totalSum = 0;
+
+        for (let i = 0; i < rows.length; i++) {
+            const cost = parseInt(rows[i].querySelector('.cost').textContent);
+            if (!isNaN(cost)) {
+                totalSum += cost;
+            }
+        }
+
+        document.getElementById('totalCost').textContent = totalSum;
+    }
+
+    function updateGoods() {
+        const select = document.getElementById('selectGood');
+        const newPrice = parseInt(document.getElementById('newPrice').value);
+        const newQuantity = parseInt(document.getElementById('newQuantity').value);
+        const selectedGoodName = select.value;
+        
+        if (isNaN(newPrice) || newPrice <= 0 || isNaN(newQuantity) || newQuantity <= 0) {
+            alert("Будь ласка, введіть коректні значення (ціна та кількість мають бути > 0).");
+            return;
+        }
+        
+        const rows = document.getElementById('goodsBody').getElementsByTagName('tr');
+        let found = false;
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            
+            if (row.getAttribute('data-name') === selectedGoodName) {
+                found = true;
+                
+                row.setAttribute('data-price', newPrice);
+                row.setAttribute('data-quantity', newQuantity);
+                
+                const priceCell = row.querySelector('.price');
+                const quantityCell = row.querySelector('.quantity');
+                const costCell = row.querySelector('.cost');
+                
+                priceCell.textContent = newPrice;
+                quantityCell.textContent = newQuantity;
+                
+                const newCost = newPrice * newQuantity;
+                costCell.textContent = newCost;
+                
+                break; 
+            }
+        }
+        
+        calculateTotal();
+        
+        if (!found) {
+            console.error("Помилка: Товар не знайдено.");
+        }
+    }
+
+    window.onload = function() {
+        populateSelect();
+        calculateTotal();
+    };
+</SCRIPT>
+</body>
+</html>

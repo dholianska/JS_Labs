@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Тригонометричні Таблиці - Введення</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        body { font-family: sans-serif; }
+        input[type="text"], select { margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <H2>ТРИГОНОМЕТРИЧНІ ФУНКЦІЇ (ГЕНЕРАЦІЯ ТАБЛИЦІ)</H2>
+    <P>Задайте діапазон обчислення та крок.</P>
+    
+    <FORM name="TrigForm" onsubmit="event.preventDefault(); calculateAndOpen();">
+        
+        <label for="func">Функція .........</label>
+        <SELECT NAME="func" ID="func">
+            <Option value="sin">синус</option>
+            <Option value="cos">косинус</option>
+            <Option value="tan">тангенс</option>
+        </SELECT>
+        <BR><BR>
+
+        <label for="start">Початковий кут (a) в градусах</label>
+        <INPUT TYPE="text" NAME="start" ID="start" value="0" onchange="validateField(this, 'startError')">
+        <span ID="startError" class="error"></span>
+        <BR><BR>
+
+        <label for="end">Кінцевий кут (b) в градусах</label>
+        <INPUT TYPE="text" NAME="end" ID="end" value="90" onchange="validateField(this, 'endError')">
+        <span ID="endError" class="error"></span>
+        <BR><BR>
+
+        <label for="step">Крок (h) в градусах</label>
+        <INPUT TYPE="text" NAME="step" ID="step" value="5" onchange="validateField(this, 'stepError')">
+        <span ID="stepError" class="error"></span>
+        <BR><BR>
+
+        <INPUT TYPE="button" VALUE="Обчислити" onclick="calculateAndOpen()">
+    </FORM>
+
+<SCRIPT>
+    function showCustomAlert(message) {
+        console.error("Помилка валідації:", message);
+    }
+    
+    function isNumbExtended(value) {
+        var t = value.trim();
+        if (t === "") return true;
+        return /^-?\d+([.,]\d+)?$/.test(t);
+    }
+
+    function validateField(fld, errorId) {
+        var errorElement = document.getElementById(errorId);
+        var value = fld.value.trim();
+        
+        if (!isNumbExtended(value)) {
+             errorElement.textContent = " (Некоректне число)";
+             fld.focus(); 
+             fld.select();
+             return false;
+        }
+        
+        if (fld.name === 'step' && value !== "") {
+            var numVal = parseFloat(value.replace(',', '.'));
+            if (numVal <= 0) {
+                errorElement.textContent = " (Крок має бути > 0)";
+                fld.focus(); 
+                fld.select();
+                return false;
+            }
+        }
+        
+        errorElement.textContent = "";
+        return true;
+    }
+
+    function calculateAndOpen() {
+        var form = document.forms.TrigForm;
+        var fields = ['start', 'end', 'step'];
+        var isValid = true;
+
+        for (var i = 0; i < fields.length; i++) {
+            var fld = form[fields[i]];
+            var errorId = fld.name + 'Error';
+
+            if (fld.value.trim() === "") {
+                showCustomAlert("Будь ласка, заповніть усі поля.");
+                fld.focus();
+                document.getElementById(errorId).textContent = " (Обов'язкове поле)";
+                return;
+            }
+            if (!validateField(fld, errorId)) {
+                 isValid = false;
+            }
+        }
+        if (!isValid) return;
+
+        var func = form.func.value;
+        var start = parseFloat(form.start.value.replace(',', '.'));
+        var end = parseFloat(form.end.value.replace(',', '.'));
+        var step = parseFloat(form.step.value.replace(',', '.'));
+
+        if (start > end) {
+             showCustomAlert("Початкове значення (a) не може бути більшим за кінцеве (b).");
+             form.start.focus();
+             return;
+        }
+        
+        if ((end - start) / step > 1000) { 
+            showCustomAlert("Забагато точок для обчислення. Збільште крок або зменште діапазон.");
+            form.step.focus();
+            return;
+        }
+
+        var params = "func=" + func + 
+                     "&start=" + start + 
+                     "&end=" + end + 
+                     "&step=" + step;
+        
+        var tableWin = window.open("TableResult.html?" + params, "TrigTable", "width=800,height=600,scrollbars=yes");
+        
+        if (!tableWin) {
+            showCustomAlert("Не вдалося відкрити нове вікно. Перевірте, чи не блокує ваш браузер спливаючі вікна.");
+        }
+    }
+</SCRIPT>
+</body>
+</html>
