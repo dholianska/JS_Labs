@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Тригонометричні Функції</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <H2>ТРИГОНОМЕТРИЧНІ ФУНКЦІЇ</H2>
+    <P>Кут повинен бути більше нуля і менше 90 градусів</P>
+    
+    <FORM name="TrigForm" onsubmit="return false;">
+        <label for="angle">Кут в градусах</label>
+        <INPUT TYPE="text" NAME="angle" ID="angle" value="30" onchange="validateAngle(this, true)">
+        <span ID="angleError" class="error"></span>
+        <BR><BR>
+
+        <label for="func">Функція .........</label>
+        <SELECT NAME="func" ID="func">
+            <Option value="sin">синус</option>
+            <Option value="cos">косинус</option>
+            <Option value="tan">тангенс</option>
+        </SELECT>
+        <BR><BR>
+
+        <INPUT TYPE="button" VALUE="Вичислити" onclick="calculateTrig()">
+    </FORM>
+
+    <P ID="resultOutput"></P>
+
+    <SCRIPT>
+        
+        const TO_RADIANS = Math.PI / 180;
+        
+        function validateAngle(fld, silent) {
+            var x = parseFloat(fld.value);
+            var errorElement = document.getElementById('angleError');
+            
+            if (isNaN(x) || x <= 0 || x >= 90) {
+                errorElement.textContent = " (Некоректний кут)";
+                if (!silent) {
+                    alert("Помилка: Кут має бути числом > 0 і < 90.");
+                    fld.focus();
+                    fld.select();
+                }
+                return false;
+            } else {
+                errorElement.textContent = "";
+                return true;
+            }
+        }
+        
+        function calculateTrig() {
+            var angleField = document.getElementById('angle');
+            
+            if (!validateAngle(angleField, false)) {
+                return; 
+            }
+
+            var angleDeg = parseFloat(angleField.value);
+            var funcName = document.TrigForm.func.value; 
+            
+            var angleRad = angleDeg * TO_RADIANS;
+            
+            var evalString = "Math." + funcName + "(" + angleRad + ")";
+            
+            var result = eval(evalString);
+
+            var outputString = funcName + "(" + angleDeg + "°) = " + result.toFixed(5);
+            document.getElementById('resultOutput').innerHTML = outputString;
+        }
+
+    </SCRIPT>
+</body>
+</html>

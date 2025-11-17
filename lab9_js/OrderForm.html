@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Замовлення меблів</title>
+</head>
+<body>
+
+    <h2>Замовлення меблів</h2>
+    
+    <FORM name="F1" METHOD="POST" ACTION="ProcessOrder.php">
+        
+        <label for="product">Виріб:</label>
+        <SELECT NAME="product" ID="product">
+            <Option VALUE="">-- Оберіть виріб --</option>
+            <Option VALUE="Шафа">Шафа</option>
+            <Option VALUE="Стіл">Стіл</option>
+            <Option VALUE="Сервант">Сервант</option>
+            <Option VALUE="Крісло">Крісло</option>
+        </SELECT>
+        <BR><BR>
+
+        <label for="material">Матеріал:</label>
+        <SELECT NAME="material" ID="material">
+            <Option VALUE="">-- Оберіть матеріал --</option>
+            <Option VALUE="Дуб">Дуб</option>
+            <Option VALUE="Горіх">Горіх</option>
+            <Option VALUE="Бук">Бук</option>
+            <Option VALUE="Вільха">Вільха</option>
+        </SELECT>
+        <BR><BR>
+
+        <label for="quantity">Кількість (шт.):</label>
+        <INPUT TYPE="text" NAME="quantity" ID="quantity">
+        <BR><BR>
+        
+        <INPUT TYPE="submit" VALUE="ЗАМОВИТИ" onclick="return Proverka()">
+    </FORM>
+
+    <SCRIPT>
+        function Proverka() {
+            var product = document.F1.product.value;
+            var material = document.F1.material.value;
+            var quantity = document.F1.quantity.value;
+            
+            var errorMessage = "Будь ласка, введіть/оберіть:\n";
+            var hasError = false;
+
+            if (product === "") {
+                errorMessage += "- Назва виробу\n";
+                hasError = true;
+            }
+
+            if (material === "") {
+                errorMessage += "- Матеріал\n";
+                hasError = true;
+            }
+
+            if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
+                errorMessage += "- Коректна кількість (> 0)\n";
+                hasError = true;
+            }
+
+            if (hasError) {
+                alert(errorMessage);
+                return false;
+            } else {
+                return true; 
+            }
+        }
+    </SCRIPT>
+</body>
+</html>
