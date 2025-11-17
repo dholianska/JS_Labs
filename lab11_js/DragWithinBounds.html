@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Перетягування в Межах</title>
+    <style>
+        body { font-family: sans-serif; }
+
+        #Boundary {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            background-color: #CCCCCC;
+            border: 2px solid #333;
+            margin: 20px auto;
+        }
+
+        #kv {
+            position: absolute;
+            left: 10px; 
+            top: 10px; 
+            width: 50px; 
+            height: 50px; 
+            background-color: rgb(238, 158, 158);
+            cursor: grab;
+        }
+    </style>
+</head>
+<body onload="init()">
+    <H2 align="center" style="color: #ff00ff">Перетягування квадрата мишкою</H2>
+    <H3 align="center">Квадрат можна переміщати лише всередині сірого контейнера.</H3>
+
+    <DIV ID="Boundary">
+        <DIV id="kv"></DIV>
+    </DIV>
+    
+    <SCRIPT>
+        flag = false; 
+        const HALF_SIZE = 25;
+        const SQUARE_SIZE = 50;
+        const MAX_COORD = 500 - SQUARE_SIZE;
+
+        function init() {
+            var kvElement = document.getElementById('kv');
+            
+            document.body.onmousemove = dragIt; 
+            kvElement.onmousedown = zachvat;
+            document.body.onmouseup = osvobodi; 
+        }
+
+        function zachvat() {
+            flag = true; 
+            document.getElementById('kv').style.cursor = 'grabbing';
+            return false;
+        }
+
+        function osvobodi() {
+            flag = false; 
+            document.getElementById('kv').style.cursor = 'grab';
+        }
+
+        function dragIt(evt) {
+            if (!flag) return; 
+            
+            var sobytie = evt || window.event;
+            var kvElement = document.getElementById('kv');
+
+            var parentRect = kvElement.parentElement.getBoundingClientRect();
+            var cursorX_rel = sobytie.clientX - parentRect.left;
+            var cursorY_rel = sobytie.clientY - parentRect.top;
+
+            var newLeft = cursorX_rel - HALF_SIZE;
+            var newTop = cursorY_rel - HALF_SIZE;
+          
+            newLeft = Math.max(0, newLeft);
+            newTop = Math.max(0, newTop);
+
+            newLeft = Math.min(MAX_COORD, newLeft);
+            newTop = Math.min(MAX_COORD, newTop);
+
+            kvElement.style.top = newTop + 'px';
+            kvElement.style.left = newLeft + 'px';
+        }
+    </SCRIPT>
+</body>
+</html>

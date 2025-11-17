@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Рух по Колу</title>
+    <style>
+        body { margin: 50px; }
+        
+        #MotionArea {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 2px dashed #ccc;
+            margin: 20px 0;
+        }
+
+        #Square {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #77c3d1; 
+        }
+    </style>
+</head>
+<body>
+
+    <H2>Рух квадрата по колу</H2>
+    
+    <BUTTON ID="B1" onclick="Start_stop()">Запустити</button>
+
+    <DIV ID="MotionArea">
+        <DIV ID="Square"></DIV>
+    </DIV>
+    
+    <SCRIPT>
+        const R = 150; 
+        const CENTER_X = 200; 
+        const CENTER_Y = 200; 
+        const SPEED = 0.05;
+        const INTERVAL_MS = 50;
+        const HALF_SIZE = 10;
+
+        var t = 0; 
+        var proc; 
+        var isRunning = false; 
+        function Start_stop() {
+            var button = document.getElementById("B1");
+
+            if (isRunning) {
+                window.clearInterval(proc);
+                isRunning = false;
+                button.innerHTML = "Запустити";
+            } else {
+                proc = window.setInterval("move()", INTERVAL_MS);
+                isRunning = true;
+                button.innerHTML = "Стоп";
+            }
+        }
+
+        function move() {
+            var square = document.getElementById("Square");
+          
+            t += SPEED;
+            if (t > 2 * Math.PI) {
+                t -= 2 * Math.PI;
+            }
+
+            var x_relative = R * Math.cos(t);
+            var y_relative = R * Math.sin(t);
+
+            var newX = CENTER_X + x_relative - HALF_SIZE;
+            var newY = CENTER_Y + y_relative - HALF_SIZE;
+            
+            square.style.left = newX + 'px';
+            square.style.top = newY + 'px';
+        }
+
+        move(); 
+    </SCRIPT>
+</body>
+</html>
