@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 1.1 - Доступ до DOM та Стилі</title>
+    <style>
+        #row1 { 
+            background-color: yellow; 
+            color: black; 
+            cursor: pointer; 
+        }
+        #row2 { 
+            background-color: white; 
+            color: red; 
+            cursor: pointer; 
+        }
+        #row3 { 
+            background-color: yellow; 
+            color: black; 
+            cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+
+    <H2 ID="row1" onclick="toggleColors1and3(this.id)">
+        Доступ до властивостей і методів
+    </H2>
+
+    <P ID="row2" NAME="p_row2" onclick="toggleColors2()">
+        Колекція all
+    </P>
+
+    <DIV ID="row3" onclick="toggleColors1and3(this.id)">
+        Метод getElementById ()
+    </DIV>
+
+    <SCRIPT>
+        function toggleColors1and3(id) {
+            var element = document.getElementById(id);
+            
+            if (element.style.color === 'black' || element.style.color === 'rgb(0, 0, 0)') {
+                element.style.color = 'white';
+            } else {
+                element.style.color = 'black';
+            }
+            
+            if (element.style.backgroundColor === 'yellow' || element.style.backgroundColor === 'rgb(255, 255, 0)') {
+                element.style.backgroundColor = 'blue';
+            } else {
+                element.style.backgroundColor = 'yellow';
+            }
+        }
+
+        function toggleColors2() {
+            var element = document.all.row2; 
+            
+            if (element.style.color === 'red' || element.style.color === 'rgb(255, 0, 0)') {
+                element.style.color = 'white';
+            } else {
+                element.style.color = 'red';
+            }
+                        
+            if (element.style.backgroundColor === 'white' || element.style.backgroundColor === 'rgb(255, 255, 255)') {
+                element.style.backgroundColor = 'green';
+            } else {
+                element.style.backgroundColor = 'white';
+            }
+        }
+    </SCRIPT>
+</body>
+</html>
