@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery: Переміщення div перед h3</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; }
+        .container { border: 2px solid #3b82f6; padding: 15px; margin-top: 15px; border-radius: 8px; }
+        h3 { background-color: #fca5a5; padding: 5px; margin: 5px 0; border-radius: 4px; }
+        div { background-color: #a7f3d0; padding: 5px; margin: 5px 0; border-radius: 4px; border-left: 5px solid green; }
+        
+        .initial-order h3 { color: darkred; }
+        .initial-order div { color: darkgreen; }
+        .final-order h3 { color: darkred; }
+        .final-order div { color: darkgreen; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <h1>jQuery: Переміщення суміжних елементів</h1>
+    
+    <h2>Початковий порядок (до виконання скрипту)</h2>
+    <div id="initialContainer" class="container initial-order">
+        <h3>header1</h3>
+        <div>text1</div>
+        <h3>header2</h3>
+        <div>text2</div>
+        <h3>header3</h3>
+        <div>text3</div>
+    </div>
+
+    <button id="runScript" style="margin-top: 20px; padding: 10px 15px; cursor: pointer;">Перемістити елементи</button>
+
+    <h2>Кінцевий порядок (після виконання скрипту)</h2>
+    <div id="finalContainer" class="container final-order">
+    </div>
+
+<script>
+$(document).ready(function() {
+    
+    $('#finalContainer').append($('#initialContainer').contents());
+    $('#initialContainer').hide();
+    
+    $('#runScript').on('click', function() {
+        
+        const adjacentDivs = $('h3 + div');
+        
+        if (adjacentDivs.length === 0) {
+            console.log("Жодної пари 'h3 + div' не знайдено.");
+            $(this).prop('disabled', true).text('Немає елементів для переміщення.');
+            return;
+        }
+
+        console.log(`Знайдено ${adjacentDivs.length} елементів div для переміщення.`);
+
+        adjacentDivs.each(function() {
+            const $div = $(this);
+            const $prevH3 = $div.prev('h3');
+            
+            if ($prevH3.length) {
+                $div.insertBefore($prevH3);
+                console.log(`Переміщено div: "${$div.text()}" перед h3: "${$prevH3.text()}"`);
+            }
+        });
+
+        $(this).prop('disabled', true).text('Переміщення завершено!');
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Функція mul() з оператором залишку</title>
+    <style>
+        body { font-family: 'Inter', Arial, sans-serif; padding: 40px; background-color: #f3f4f6; text-align: center; }
+        .container { 
+            background-color: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 { color: #10b981; margin-bottom: 20px; }
+        pre { 
+            background-color: #eef2ff; 
+            padding: 15px; 
+            border-radius: 6px; 
+            text-align: left;
+            overflow-x: auto;
+            border: 1px solid #c7d2fe;
+        }
+        p { margin-top: 15px; color: #4b5563; }
+        .hint { color: #6b7280; font-style: italic; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Функція `mul()` для добутку чисел (Перевірте консоль)</h1>
+        <p>Функція використовує оператор залишку `...args` для збору всіх аргументів у масив.</p>
+        <pre>
+function mul(...args) {
+    // ... ваш код для фільтрації та множення
+}
+
+console.log(mul(1, "str", 2, 3, true)); // Очікується: 6
+console.log(mul(null, "str", false, true)); // Очікується: 0
+        </pre>
+        <p class="hint">Результати викликів функції виведені в консоль браузера.</p>
+    </div>
+
+<script>
+function mul(...args) {
+    const numbers = args.filter(item => typeof item === 'number');
+
+    if (numbers.length === 0) {
+        return 0;
+    }
+
+    const product = numbers.reduce((acc, current) => acc * current, 1);
+
+    return product;
+}
+
+console.log(`mul(1, "str", 2, 3, true) => ${mul(1, "str", 2, 3, true)}`); // 6
+console.log(`mul(null, "str", false, true) => ${mul(null, "str", false, true)}`); // 0
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery: Додавання target="_blank"</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; }
+        .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; }
+        a:after { content: " (target: " attr(target) ")"; color: #555; font-size: 0.9em; }
+        a[target="_blank"]:after { content: " (target: _blank)"; color: green; font-weight: bold; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <h1>jQuery: Додавання атрибута target="_blank"</h1>
+    <p>Натисніть кнопку, щоб перевірити посилання та змінити їх атрибути.</p>
+
+    <div>
+        <a href="https://google.com">1. Безпечне посилання (https://)</a>
+    </div>
+    <div>
+        <a href="http://insecure.net">2. Небезпечне посилання (http://)</a>
+    </div>
+    <div>
+        <a href="https://secure-site.org/page.html">3. Безпечне посилання з шляхом</a>
+    </div>
+    <div>
+        <a href="/local/task1.html">4. Локальне посилання</a>
+    </div>
+
+    <button id="runScript" style="margin-top: 20px; padding: 10px 15px; cursor: pointer;">Запустити функцію jQuery</button>
+
+    <div class="result">
+        <p><strong>Результат:</strong> Перевірте вихідний код елементів або лог консолі.</p>
+        <p>На посиланнях з <code>https://</code> тепер має бути атрибут <code>target="_blank"</code>.</p>
+    </div>
+
+<script>
+$(document).ready(function() {
+    $('#runScript').on('click', function() {
+        
+        const secureLinks = $('a[href^="https://"]');
+        
+        if (secureLinks.length === 0) {
+            console.log("Жодного посилання, що починається на 'https://', не знайдено.");
+            return;
+        }
+
+        secureLinks.attr('target', '_blank');
+
+        console.log(`Знайдено та оновлено ${secureLinks.length} посилань:`);
+        secureLinks.each(function(index) {
+            console.log(`${index + 1}. Посилання: ${$(this).attr('href')} -> target="${$(this).attr('target')}"`);
+        });
+
+        $(this).prop('disabled', true).text('Оновлено!');
+    });
+});
+</script>
+</body>
+</html>

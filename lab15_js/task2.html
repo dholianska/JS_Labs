@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery: Комбіновані селектори та стилізація</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; }
+        .head { border: 1px solid #ccc; padding: 5px; margin: 5px 0; }
+        .inner { color: #800080; } /* Початковий стиль для inner */
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <h1>Завдання: Комбіновані маніпуляції з DOM за допомогою jQuery</h1>
+
+    <h2 class="head">header1</h2>
+    <h2 class="head">header2 <span class="inner">inner elem1</span></h2>
+    <h2>header3</h2>
+    <h2 class="head">header4<span>inner elem2</span></h2>
+    <h2>header5</h2>
+
+    <button id="applyStyles" style="margin-top: 20px; padding: 10px 15px; cursor: pointer;">Застосувати стилі jQuery</button>
+
+<script>
+$(document).ready(function() {
+    $('#applyStyles').on('click', function() {
+        
+        console.log("Етап 1: Пошук усіх h2 з класом 'head' та зміна фону.");
+        
+        const headElements = $('h2.head').css('background-color', 'lightgreen');
+
+        console.log(`Знайдено ${headElements.length} елементів 'h2.head'.`);
+        const innerElements = headElements.find('.inner').css('font-size', '35px');
+
+        console.log(`Знайдено ${innerElements.length} нащадків з класом '.inner' всередині h2.head.`);
+        
+        $(this).prop('disabled', true).text('Стилі застосовано!');
+    });
+});
+</script>
+</body>
+</html>

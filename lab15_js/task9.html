@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Функція Map Builder</title>
+    <style>
+        body { font-family: 'Inter', Arial, sans-serif; padding: 40px; background-color: #f3f4f6; text-align: center; }
+        .container { 
+            background-color: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 { color: #10b981; margin-bottom: 20px; }
+        pre { 
+            background-color: #eef2ff; 
+            padding: 15px; 
+            border-radius: 6px; 
+            text-align: left;
+            overflow-x: auto;
+            border: 1px solid #c7d2fe;
+        }
+        p { margin-top: 15px; color: #4b5563; }
+        .hint { color: #6b7280; font-style: italic; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Створення Map з двох масивів (Перевірте консоль)</h1>
+        <p>Функція `mapBuilder` об'єднує ключі та значення з двох масивів в об'єкт `Map`.</p>
+        <pre>
+let keys = [1, 2, 3, 4];
+let values = ["div", "span", "b", "i"];
+
+let map = mapBuilder(keys, values);
+
+console.log(map.size); // Очікується: 4
+console.log(map.get(2)); // Очікується: "span"
+        </pre>
+        <p class="hint">Результати перевірки виведені в консоль браузера.</p>
+    </div>
+
+<script>
+function mapBuilder(keysArray, valuesArrays) {
+    const resultMap = new Map();
+
+    if (keysArray.length !== valuesArrays.length) {
+        console.error("Помилка: Масиви ключів та значень повинні мати однакову довжину.");
+        return resultMap; 
+    }
+
+    for (let i = 0; i < keysArray.length; i++) {
+        const key = keysArray[i];
+        const value = valuesArrays[i];
+        
+        resultMap.set(key, value);
+    }
+
+    return resultMap;
+}
+
+let keys = [1, 2, 3, 4];
+let values = ["div", "span", "b", "i"];
+
+let map = mapBuilder(keys, values);
+
+console.log("Map size:", map.size); // 4
+console.log("map.get(2):", map.get(2)); // "span"
+console.log("------------------------");
+
+let carKeys = ["Tesla", "BMW", "Audi"];
+let carValues = [100000, 50000, 45000];
+
+let priceMap = mapBuilder(carKeys, carValues);
+console.log("Price Map size:", priceMap.size); // 3
+console.log("priceMap.get('Tesla'):", priceMap.get('Tesla')); // 100000
+</script>
+
+</body>
+</html>

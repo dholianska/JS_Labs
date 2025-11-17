@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Код зі Стрілковими Функціями</title>
+    <style>
+        body { font-family: 'Inter', Arial, sans-serif; padding: 40px; background-color: #f3f4f6; text-align: center; }
+        .container { 
+            background-color: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        h1 { color: #10b981; margin-bottom: 20px; }
+        pre { 
+            background-color: #eef2ff; 
+            padding: 15px; 
+            border-radius: 6px; 
+            text-align: left;
+            overflow-x: auto;
+            border: 1px solid #c7d2fe;
+        }
+        p { margin-top: 15px; color: #4b5563; }
+        .hint { color: #6b7280; font-style: italic; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Код JavaScript з використанням Стрілкових Функцій (Перевірте консоль)</h1>
+        <p>Стрілкові функції автоматично успадковують контекст `this` від батьківської області видимості, що усуває необхідність у `bind()`. Це забезпечує коректну роботу з `this.data` та `this.result`.</p>
+        <pre>
+let server = {
+    data: 0,
+    convertToString: function(callback) {
+        // Стрілкова функція успадковує 'this' (server) від convertToString
+        callback(() => {
+            return this.data + "";
+        });
+    }
+};
+
+let client = {
+    server: server,
+    result: "",
+    calc: function (data) {
+        this.server.data = data;
+        this.server.convertToString(this.notification());
+    },
+    notification: function() {
+        // Стрілкова функція успадковує 'this' (client) від notification
+        return (callback) => {
+            this.result = callback();
+        };
+    }
+};
+
+client.calc(123);
+// ...
+// Результат у консолі: "123", "string"
+        </pre>
+        <p class="hint">У консолі ви побачите очікуваний вивід: "123" та "string".</p>
+    </div>
+
+<script>
+let server = {
+    data: 0,
+    
+    convertToString: function(callback) {
+        callback(() => {
+            return this.data + ""; // this.data коректно посилається на server.data
+        });
+    }
+};
+
+let client = {
+    server: server,
+    result: "",
+    
+    calc: function (data) {
+        this.server.data = data;
+        this.server.convertToString(this.notification());
+    },
+    
+    notification: function() {
+        return (callback) => {
+            this.result = callback(); 
+        };
+    }
+};
+
+client.calc(123);
+
+console.log(client.result); // "123"
+console.log(typeof client.result); // "string"
+
+console.log("------------------------");
+console.log("client.result:", client.result);
+console.log("typeof client.result:", typeof client.result);
+console.log("------------------------");
+
+</script>
+
+</body>
+</html>
