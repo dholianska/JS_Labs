@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Перегляд Фотографій</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #imageContainer {
+            margin-top: 20px;
+        }
+        #mainImage {
+            width: 500px;
+            height: 350px;
+            border: 3px solid #333;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <H2>Виберіть фотографію</H2>
+    
+    <SELECT onchange="prosm(this)">
+        <Option value="Most">Міст</option>
+        <Option value="Les">Ліс</option>
+        <Option value="Ozero">Озеро</option>
+        <Option value="Porog">Пороги</option>
+        <Option value="Doroga">Дорога</option>
+        <Option value="Sosny">Сосни</option>
+        <Option value="Grib">Гриб</option>
+    </SELECT>
+
+    <div id="imageContainer">
+        <IMG SRC="Most.jpg" NAME="fot" ID="mainImage" alt="Основне зображення">
+    </div>
+    
+    <P>Рис. 1</P>
+
+    <SCRIPT>
+        var photo = new Array();
+
+        function preloadImages() {
+            var width = 400; 
+            var height = 550;
+
+            photo["Most"] = new Image(width, height);
+            photo["Most"].src = "Most.jpg";
+            
+            photo["Les"] = new Image(width, height);
+            photo["Les"].src = "Les.jpg";
+            
+            photo["Ozero"] = new Image(width, height);
+            photo["Ozero"].src = "Ozero.jpg";
+            
+            photo["Porog"] = new Image(width, height);
+            photo["Porog"].src = "Porog.jpg";
+            
+            photo["Doroga"] = new Image(width, height);
+            photo["Doroga"].src = "Doroga.jpg";
+            
+            photo["Sosny"] = new Image(width, height);
+            photo["Sosny"].src = "Sosny.jpg";
+            
+            photo["Grib"] = new Image(width, height);
+            photo["Grib"].src = "Grib.jpg";
+            
+            console.log("Зображення попередньо завантажено в кеш.");
+        }
+        
+        preloadImages();
+
+
+        function prosm(list) {
+            var d = list.options[list.selectedIndex].value; 
+            document.fot.src = photo[d].src;
+            
+            console.log("Відображено: " + d);
+        }
+
+    </SCRIPT>
+</body>
+</html>

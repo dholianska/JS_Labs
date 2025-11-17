@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Побудова Еліпса</title>
+    <style>
+        body { font-family: sans-serif; }
+        .input-group { margin-bottom: 10px; }
+        .canvas-container { border: 1px solid #000; display: inline-block; margin-right: 20px; }
+        .pixel-container {
+            position: relative;
+            width: 300px; 
+            height: 300px;
+            border: 1px solid #999;
+            background-color: #FFFF99;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .pixel {
+            width: 1px;
+            height: 1px;
+            background-color: black;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <H2>Побудова еліпса</H2>
+    
+    <FORM name="EllipseForm">
+        <div class="input-group">
+            Задайте довжини півосей
+        </div>
+        <div class="input-group">
+            горизонтальна a=<INPUT TYPE="text" NAME="axisA" ID="axisA" value="100">
+        </div>
+        <div class="input-group">
+            вертикальна b=<INPUT TYPE="text" NAME="axisB" ID="axisB" value="150">
+        </div>
+        <INPUT TYPE="button" VALUE="Побудувати" onclick="drawEllipse()">
+    </FORM>
+
+    <HR>
+    
+    <h3>Метод 1: HTML5 Canvas (Рекомендований)</h3>
+    <canvas id="ellipseCanvas" width="300" height="300" style="border: 1px solid black; background-color: #FFFF99;"></canvas>
+
+    <h3>Метод 2: Мозаїка (Елементи DIV-пікселі)</h3>
+    <div id="pixelDrawingArea" class="pixel-container">
+        </div>
+
+
+    <SCRIPT>
+        const CENTER_X = 150;
+        const CENTER_Y = 150;
+
+        function drawEllipse() {
+            var a = parseFloat(document.getElementById('axisA').value);
+            var b = parseFloat(document.getElementById('axisB').value);
+            
+            if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                alert("Будь ласка, введіть додатні числа для півосей.");
+                return;
+            }
+            if (a > CENTER_X || b > CENTER_Y) {
+                 alert("Півосі завеликі для області малювання 300x300. Зменште значення.");
+                 return;
+            }
+
+            drawEllipseCanvas(a, b);
+            drawEllipsePixels(a, b);
+        }
+
+
+        function drawEllipseCanvas(a, b) {
+            var canvas = document.getElementById('ellipseCanvas');
+            var ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(CENTER_X, 0); ctx.lineTo(CENTER_X, 300);
+            ctx.moveTo(0, CENTER_Y); ctx.lineTo(300, CENTER_Y);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(CENTER_X, CENTER_Y, a, b, 0, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
+        function drawEllipsePixels(a, b) {
+            var drawingArea = document.getElementById('pixelDrawingArea');
+            drawingArea.innerHTML = ''; 
+            drawingArea.innerHTML += '<div style="position:absolute; top:0; left:' + CENTER_X + 'px; width:1px; height:300px; background-color:black;"></div>'; // Вертикальна
+            drawingArea.innerHTML += '<div style="position:absolute; top:' + CENTER_Y + 'px; left:0; width:300px; height:1px; background-color:black;"></div>'; // Горизонтальна
+            
+            for (let t = 0; t <= 2 * Math.PI; t += 0.01) {
+                var x_relative = a * Math.cos(t);
+                var y_relative = b * Math.sin(t);
+
+                var x_screen = CENTER_X + x_relative;
+                var y_screen = CENTER_Y + y_relative;
+
+                var pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.style.left = x_screen + 'px';
+                pixel.style.top = y_screen + 'px';
+                
+                drawingArea.appendChild(pixel);
+            }
+        }
+    </SCRIPT>
+    
+</body>
+</html>
