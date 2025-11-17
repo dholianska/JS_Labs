@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 2.2 - Делегування Подій</title>
+    <style>
+        #container {
+            border: 2px solid #ccc;
+            padding: 10px;
+            width: 350px;
+            text-align: center;
+            cursor: pointer; 
+        }
+
+        #caption {
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            margin-top: 5px;
+        }
+
+        #main-img {
+            width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <DIV ID="container" onclick="handleImageEvent(event)">
+        <IMG SRC="img1.jpg" ID="main-img" alt="Перше зображення">
+        <P ID="caption">
+            Це перша підпис до зображення.
+        </P>
+    </DIV>
+
+    <SCRIPT>
+        var currentImage = 1;
+        
+        function handleImageEvent(evt) {
+            var e = evt || window.event;
+            var elem = e.target || e.srcElement; 
+            
+            switch (elem.id) {
+                case "caption":
+                    var currentColor = elem.style.color;
+                    if (currentColor === 'red' || currentColor === 'rgb(255, 0, 0)') {
+                        elem.style.color = 'blue';
+                    } else {
+                        elem.style.color = 'red';
+                    }
+                    break;
+                    
+                case "main-img":
+                    var imgElement = elem;
+                    var captionElement = document.getElementById('caption');
+
+                    if (currentImage === 1) {
+                        imgElement.src = 'img2.jpg';
+                        imgElement.alt = 'Друге зображення';
+                        captionElement.innerHTML = 'Це друга підпис до зображення.';
+                        currentImage = 2;
+                        captionElement.style.color = 'black';
+                    } else {
+                        imgElement.src = 'img1.jpg';
+                        imgElement.alt = 'Перше зображення';
+                        captionElement.innerHTML = 'Це перша підпис до зображення.';
+                        currentImage = 1;
+                        captionElement.style.color = 'black';
+                    }
+                    break;
+            }
+        }
+    </SCRIPT>
+</body>
+</html>

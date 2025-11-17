@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 2.1 - Обробка Подій Миші</title>
+    <style>
+        #row1 { 
+            color: black; 
+        }
+        
+        #row2 {
+            font-size: 16pt;
+            color: black;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        #row3 {
+            background-color: yellow; 
+            cursor: pointer;
+        }
+
+        #row4 {
+            background-color: lightblue; 
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <H2 ID="row1">П'ять подій з мишкою</H2>
+
+    <P ID="row2" onclick="toggleRow2(this)">
+        Клацніть на мене мишкою
+    </P>
+
+    <P ID="row3" 
+        onmousedown="changeColor3(this, 'green')" 
+        onmouseup="changeColor3(this, 'yellow')">
+        На цьому тексті натисніть, потримайте і відпустіть ліву кнопку мишки
+    </P>
+
+    <P ID="row4" 
+        onmouseover="changeColor4(this, 'red')" 
+        onmouseout="changeColor4(this, 'lightblue')">
+        Повільно проведіть курсором мишки по цій написи
+    </P>
+
+    <SCRIPT>
+        var isExpanded = false;
+
+        function toggleRow2(element) {
+            if (isExpanded) {
+                element.style.fontSize = '16pt';
+                element.style.color = 'black';
+                element.style.backgroundColor = 'white';
+                isExpanded = false;
+            } else {
+                element.style.fontSize = '48pt';
+                element.style.color = 'white';
+                element.style.backgroundColor = 'blue';
+                isExpanded = true;
+            }
+        }
+        
+        function changeColor3(element, color) {
+            element.style.backgroundColor = color;
+        }
+
+        function changeColor4(element, color) {
+            element.style.backgroundColor = color;
+        }
+    </SCRIPT>
+</body>
+</html>
