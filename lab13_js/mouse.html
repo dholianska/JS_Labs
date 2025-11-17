@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Обробка подій миші на кнопці</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+            background-color: #f0f4f8;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+        
+        button:active {
+            transform: translateY(1px); 
+        }
+
+        #messages {
+            min-height: 150px;
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .message-item {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     
+        <button id="myButton"
+                onclick="showMessage('I was pressed!')"
+                onmouseover="showMessage('Mouse on me!')"
+                onmouseout="showMessage('Mouse is not on me!')">
+            Live button!
+        </button>
+
+        <h3>Лог подій:</h3>
+        <div id="messages">
+        </div>
+    </div>
+
+<script>
+    function showMessage(text) {
+        const messagesContainer = document.getElementById('messages');
+        
+        const newMessage = document.createElement('p');
+        newMessage.className = 'message-item';
+        
+        const time = new Date().toLocaleTimeString('uk-UA');
+        newMessage.textContent = `[${time}] ${text}`;
+        
+        if (messagesContainer.firstChild) {
+            messagesContainer.insertBefore(newMessage, messagesContainer.firstChild);
+        } else {
+            messagesContainer.appendChild(newMessage);
+        }
+
+        while (messagesContainer.children.length > 8) {
+            messagesContainer.removeChild(messagesContainer.lastChild);
+        }
+        
+        console.log(text);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Робота з об'єктом window</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .instructions {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .instructions p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instructions">
+        <p>Натисніть кнопку, щоб запустити послідовність дій з новим вікном:</p>
+        <ol style="text-align: left;">
+            <li>Відкриття вікна (300x300px)</li>
+            <li>Через 2 сек: зміна розміру на 500x500px</li>
+            <li>Через 4 сек (загальний час): переміщення в (200, 200)</li>
+            <li>Через 6 сек (загальний час): закриття вікна</li>
+        </ol>
+    </div>
+
+    <button onclick="startWindowOperations()">Запустити операції з вікном</button>
+
+<script>
+    let myWindow = null; 
+
+    function startWindowOperations() {
+        if (myWindow && !myWindow.closed) {
+            console.warn("Попередження: Вікно вже відкрито. Зачекайте, поки попереднє закриється.");
+            return;
+        }
+
+        myWindow = window.open("", "MyNewWindow", "width=300,height=300,resizable=yes");
+
+        if (!myWindow) {
+            alert("Не вдалося відкрити вікно. Перевірте, чи не заблоковано спливаючі вікна.");
+            return;
+        }
+        
+        myWindow.document.write("<h1>Нове вікно</h1><p>Зараз розпочнеться послідовність змін...</p>");
+        myWindow.document.close();
+        
+        console.log("1. Вікно відкрито (300x300).");
+
+        setTimeout(() => {
+            if (myWindow && !myWindow.closed) {
+                myWindow.resizeTo(500, 500);
+                console.log("2. Розмір змінено на 500x500.");
+            }
+        }, 2000);
+
+        setTimeout(() => {
+            if (myWindow && !myWindow.closed) {
+                myWindow.moveTo(200, 200);
+                console.log("3. Вікно переміщено в (200, 200).");
+            }
+        }, 4000);
+       
+        setTimeout(() => {
+            if (myWindow && !myWindow.closed) {
+                myWindow.close();
+                console.log("4. Вікно закрито.");
+            }
+        }, 6000); 
+    }
+</script>
+</body>
+</html>

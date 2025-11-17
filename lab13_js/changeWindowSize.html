@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Відстеження розміру вікна</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .tracker-card {
+            background-color: white;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 2px solid #3b82f6; 
+        }
+
+        h1 {
+            color: #1e40af;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #sizeDisplay {
+            font-size: 36px;
+            font-weight: bold;
+            color: #059669;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .highlight {
+            color: #ef4444 !important; 
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tracker-card">
+        <h1>Поточні розміри вікна (Viewport)</h1>
+        <p id="sizeDisplay">
+            Ширина: 0, Висота: 0
+        </p>
+        <p style="font-size: 14px; margin-top: 20px;">
+            Спробуйте змінити розмір вікна браузера!
+        </p>
+    </div>
+
+<script>
+    const sizeDisplay = document.getElementById('sizeDisplay');
+
+    function updateWindowSize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        sizeDisplay.textContent = `Ширина: ${width}px, Висота: ${height}px`;
+
+        sizeDisplay.classList.add('highlight');
+        
+        setTimeout(() => {
+            sizeDisplay.classList.remove('highlight');
+        }, 150);
+    }
+
+    window.addEventListener('resize', updateWindowSize);
+
+    window.onload = updateWindowSize;
+</script>
+
+</body>
+</html>
